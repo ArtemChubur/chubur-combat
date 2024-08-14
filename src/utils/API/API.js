@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-    baseURL: 'http://localhost:3333/api'
+    baseURL: 'https://chubur-combat-back.vercel.app/api'
 })
 
 export {axiosInstance}

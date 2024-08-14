@@ -26,6 +26,11 @@ const Coin = () => {
     }
 
     useEffect(() => {
+        // getUser()
+        dispatch(getUser())
+    }, [dispatch]);
+
+    useEffect(() => {
         setCoins(user?.user?.coins)
     }, [user]);
 
@@ -45,7 +50,7 @@ const Coin = () => {
                     setTimer(setTimeout(() => {
                         updateData()
                         // dispatch(getUser())
-                    }, 250))
+                    }, 200))
                 }}
             />
             {/*<input*/}
