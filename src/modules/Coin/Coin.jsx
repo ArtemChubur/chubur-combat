@@ -4,10 +4,13 @@ import {useDispatch, useSelector} from "react-redux";
 import {axiosInstance} from "../../utils/API/API";
 import style from './Coin.module.css'
 import {SKINS_DATA} from "../../constants/skins";
+import {useNavigate} from "react-router-dom";
 
 const Coin = () => {
+    const navigate = useNavigate()
     const dispatch = useDispatch()
     const user = useSelector(state => state.user.user)
+    const userError = useSelector(state => state.user.error)
     const skin = SKINS_DATA.find((item) => item.name === user?.user?.equippedSkin && item)
     const [timer, setTimer] = useState(null)
     const [coins, setCoins] = useState(0)
@@ -31,6 +34,9 @@ const Coin = () => {
     }, [dispatch]);
 
     useEffect(() => {
+        if (userError === "Network Error"){
+            navigate('/login')
+        }
         setCoins(user?.user?.coins)
     }, [user]);
 

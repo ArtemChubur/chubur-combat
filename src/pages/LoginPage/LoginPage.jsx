@@ -45,6 +45,7 @@ const LoginPage = () => {
                     type="password"
                 />
                 <input className={style.button} value={'войти'} type={"submit"}/>
+                <a href="/register">Создать учетнаю запись</a>
             </form>
         </div>
     );

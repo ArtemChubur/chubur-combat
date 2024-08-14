@@ -61,6 +61,7 @@ const RegisterPage = () => {
                     }}
                 />
                 <input className={style.button} value={'зарегистрироваться'} type={"submit"}/>
+                <a href="/login">Войти в учетную запись</a>
             </form>
         </div>
     );
