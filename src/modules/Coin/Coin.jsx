@@ -11,6 +11,7 @@ const Coin = () => {
     const dispatch = useDispatch()
     const user = useSelector(state => state.user.user)
     const userError = useSelector(state => state.user.error)
+    const isLoading = useSelector(state => state.user.isLoading)
     const skin = SKINS_DATA.find((item) => item.name === user?.user?.equippedSkin && item)
     const [timer, setTimer] = useState(null)
     const [coins, setCoins] = useState(0)
@@ -34,55 +35,39 @@ const Coin = () => {
     }, [dispatch]);
 
     useEffect(() => {
-        if (userError === "Network Error"){
-            navigate('/login')
-        }
         setCoins(user?.user?.coins)
     }, [user]);
 
+    useEffect(() => {
+        if (userError === "Request failed with status code 403"){
+            navigate('/login')
+        }
+    }, [userError, navigate]);
+
     return (
         <div className={style.CoinComponent}>
-            {/*<h2>{user?.user?.coins}</h2>*/}
-            <h2>{coins}</h2>
-            <input
-                type="button"
-                className={style.CoinBtn}
-                style={{backgroundImage: `url('${skin?.img}')`}}
-                onClick={() => {
-                    setCoins(coins + 1)
-                    if (timer) {
-                        clearTimeout(timer)
-                    }
-                    setTimer(setTimeout(() => {
-                        updateData()
-                        // dispatch(getUser())
-                    }, 200))
-                }}
-            />
-            {/*<input*/}
-            {/*    style={{backgroundImage: `url('${skin?.img}')`}}*/}
-            {/*    type={'button'}*/}
-            {/*    className={style.CoinBtn}*/}
-            {/*    disabled={!user?.user?.energy}*/}
-            {/*    onClick={() => {*/}
-            {/*        setCoins(coins + 1)*/}
-            {/*        if (timer) {*/}
-            {/*            clearTimeout(timer);*/}
-            {/*        }*/}
-            {/*        setTimer(setTimeout(() => {*/}
-            {/*            updateData()*/}
-            {/*            dispatch(getUser())*/}
-
-            {/*        }, 250));*/}
-
-            {/*    }}*/}
-            {/*/>*/}
-            {/*<div className={style.EnergyContainer}>*/}
-            {/*    <div className={style.EnergyMax}>*/}
-            {/*        <div style={{width: `${100 / user?.user?.maxEnergy * user?.user?.energy}%`}} className={style.EnergyScore}></div>*/}
-            {/*        /!*<div className={style.EnergyScore}></div>*!/*/}
-            {/*    </div>*/}
-            {/*</div>*/}
+            {isLoading ?
+                <p>Loading...</p>
+                :
+                <div>
+                    <h2>{coins}</h2>
+                    <input
+                        type="button"
+                        className={style.CoinBtn}
+                        style={{backgroundImage: `url('${skin?.img}')`}}
+                        onClick={() => {
+                            setCoins(coins + 1)
+                            if (timer) {
+                                clearTimeout(timer)
+                            }
+                            setTimer(setTimeout(() => {
+                                updateData()
+                                // dispatch(getUser())
+                            }, 200))
+                        }}
+                    />
+                </div>
+            }
         </div>
     );
 };
